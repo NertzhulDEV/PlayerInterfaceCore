@@ -1,0 +1,14 @@
+name: PlayerInterfaceCore
+version: ${project.version}
+main: me.nertzhul.playerinterfacecore.PlayerInterfaceCore
+api-version: 1.16
+depend: [ MMOCore, CustomVersion, LuckPerms ]
+softdepend: [ BeautyQuests ]
+authors: [ Nertzhul ]
+commands:
+  debugPIC:
+    description: Debug command.
+    permission: pic.debug
+permissions:
+  pic.debug:
+    description: Access debug command.

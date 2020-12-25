@@ -1,0 +1,8 @@
+player_professions:
+  - minerador_humano:mining
+
+player_attributes:
+  - strength
+  - mana
+  - intelligence
+  - dexterity
