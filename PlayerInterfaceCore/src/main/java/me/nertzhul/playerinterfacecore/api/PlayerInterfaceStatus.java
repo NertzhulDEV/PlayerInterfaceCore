@@ -18,32 +18,32 @@ public class PlayerInterfaceStatus {
     private static final LuckPerms luckPermsApi = LuckPermsProvider.get();
 
     // Player Profile
-    public static int getPlayerLevel(Player player) {
+    public int getPlayerLevel(Player player) {
         return PlayerData.get((OfflinePlayer) player).getLevel();
     }
 
-    public static double getPlayerExperience(Player player) {
+    public double getPlayerExperience(Player player) {
         return PlayerData.get((OfflinePlayer) player).getExperience();
     }
 
-    public static double getPlayerLevelUpExperience(Player player) {
+    public double getPlayerLevelUpExperience(Player player) {
         return PlayerData.get((OfflinePlayer) player).getLevelUpExperience();
     }
 
-    public static int getPlayerSkillPoints(Player player) {
+    public int getPlayerSkillPoints(Player player) {
         return PlayerData.get((OfflinePlayer) player).getSkillPoints();
     }
 
-    public static PlayerClass getPlayerClass(Player player) {
+    public PlayerClass getPlayerClass(Player player) {
         return PlayerData.get((OfflinePlayer) player).getProfess();
     }
 
-    public static int getPlayerClassPoints(Player player) {
+    public int getPlayerClassPoints(Player player) {
         return PlayerData.get((OfflinePlayer) player).getClassPoints();
     }
 
     // Player Profession
-    public static Profession getPlayerProfession(Player player) {
+    public Profession getPlayerProfession(Player player) {
         try {
             for (String groupName : config.getStringList("player_professions")) {
                 if (luckPermsApi.getUserManager().getUser(player.getName()).getInheritedGroups(QueryOptions.defaultContextualOptions()).contains(luckPermsApi.getGroupManager().getGroup(groupName.split(":")[0]))) {
@@ -57,7 +57,7 @@ public class PlayerInterfaceStatus {
         return null;
     }
 
-    public static int getPlayerProfessionLevel(Player player) {
+    public int getPlayerProfessionLevel(Player player) {
         if (getPlayerProfession(player) != null) {
             return PlayerData.get((OfflinePlayer) player).getCollectionSkills().getLevel(getPlayerProfession(player));
         } else {
@@ -65,7 +65,7 @@ public class PlayerInterfaceStatus {
         }
     }
 
-    public static double getProfessionExperience(Player player) {
+    public double getProfessionExperience(Player player) {
         if (getPlayerProfession(player) != null) {
             return PlayerData.get((OfflinePlayer) player).getCollectionSkills().getExperience(getPlayerProfession(player));
         } else {
@@ -73,7 +73,7 @@ public class PlayerInterfaceStatus {
         }
     }
 
-    public static double getProfessionLevelUpExperience(Player player) {
+    public double getProfessionLevelUpExperience(Player player) {
         if (getPlayerProfession(player) != null) {
             return PlayerData.get((OfflinePlayer) player).getCollectionSkills().getLevelUpExperience(getPlayerProfession(player));
         } else {

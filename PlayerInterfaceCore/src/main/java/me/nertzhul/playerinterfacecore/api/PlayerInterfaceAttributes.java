@@ -8,23 +8,23 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 public class PlayerInterfaceAttributes {
-    public static int getPlayerAttributeByID(Player player, String attributeID) {
+    public int getPlayerAttributeByID(Player player, String attributeID) {
         return PlayerData.get((OfflinePlayer) player).getAttributes().getAttribute(MMOCore.plugin.attributeManager.get(attributeID));
     }
 
-    public static String getPlayerAttributeID(String attribute) {
+    public String getPlayerAttributeID(String attribute) {
         return MMOCore.plugin.attributeManager.get(attribute).getId();
     }
 
-    public static String getPlayerAttributeName(String attribute) {
+    public String getPlayerAttributeName(String attribute) {
         return MMOCore.plugin.attributeManager.get(attribute).getName();
     }
 
-    public static int getPlayerAttributesPoints(Player player) {
+    public int getPlayerAttributesPoints(Player player) {
         return PlayerData.get((OfflinePlayer) player).getAttributePoints();
     }
 
-    public static void playerLevelUpAttribute(Player player, String attributeID) {
+    public void playerLevelUpAttribute(Player player, String attributeID) {
         PlayerAttribute playerAttribute = MMOCore.plugin.attributeManager.get(attributeID);
 
         if (playerAttribute.hasMax() && getPlayerAttributeByID(player, attributeID) != playerAttribute.getMax()) {

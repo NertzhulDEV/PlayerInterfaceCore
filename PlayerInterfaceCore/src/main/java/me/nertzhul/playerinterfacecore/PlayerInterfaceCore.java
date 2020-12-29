@@ -8,7 +8,6 @@ import com.ramonrpa.customversion.packets.CustomPacketManager;
 import com.ramonrpa.customversion.packets.server.SPacketPlayerStats;
 import me.nertzhul.playerinterfacecore.api.PlayerInterfaceAttributes;
 import me.nertzhul.playerinterfacecore.api.PlayerInterfaceStatus;
-import me.nertzhul.playerinterfacecore.command.DebugCommand;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -16,6 +15,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.text.DecimalFormat;
 
 public final class PlayerInterfaceCore extends JavaPlugin implements Listener {
 
@@ -27,18 +28,18 @@ public final class PlayerInterfaceCore extends JavaPlugin implements Listener {
     private static Economy economy = null;
     public static PlayerInterfaceStatus playerInterfaceStatus;
     public static PlayerInterfaceAttributes playerInterfaceAttributes;
+    private final DecimalFormat format = new DecimalFormat("0.00");
 
     @Override
     public void onEnable() {
         if (!hasMmoCore()) {
             Bukkit.getLogger().severe("§4[PIC] Dependência §e\"MMOCore\" §4não encontrada, o plugin será desativado!");
-            Bukkit.getPluginManager().disablePlugin((Plugin) this);
+            Bukkit.getPluginManager().disablePlugin(this);
         }
         instance = this;
         setupEconomy();
         saveDefaultConfig();
         getServer().getPluginManager().registerEvents(this, this);
-        getCommand("debugPIC").setExecutor(new DebugCommand());
     }
 
     @Override
@@ -67,7 +68,7 @@ public final class PlayerInterfaceCore extends JavaPlugin implements Listener {
                 playerInterfaceStatus.getPlayerClass(e.getPlayer()).getName(),
                 (playerInterfaceStatus.getPlayerProfession(e.getPlayer()) == null ? "Nenhuma" : playerInterfaceStatus.getPlayerProfession(e.getPlayer()).getName()),
                 playerInterfaceStatus.getPlayerProfessionLevel(e.getPlayer()),
-                getEconomy().getBalance(e.getPlayer()),
+                Double.parseDouble(format.format(getEconomy().getBalance(e.getPlayer()))),
                 playerInterfaceAttributes.getPlayerAttributesPoints(e.getPlayer()));
         for (String attribute : getConfig().getStringList("player_attributes")) {
             Attribute playerAttribute = new Attribute(playerInterfaceAttributes.getPlayerAttributeID(attribute), playerInterfaceAttributes.getPlayerAttributeName(attribute), playerInterfaceAttributes.getPlayerAttributeByID(e.getPlayer(), attribute));
@@ -79,14 +80,14 @@ public final class PlayerInterfaceCore extends JavaPlugin implements Listener {
 
     @EventHandler
     public void onAttributeUpRequest(AttributeLevelUpRequestEvent e) {
-        PlayerInterfaceAttributes.playerLevelUpAttribute(e.getPlayer(), e.getId());
+        playerInterfaceAttributes.playerLevelUpAttribute(e.getPlayer(), e.getId());
         PlayerStats playerStats = new PlayerStats(playerInterfaceStatus.getPlayerLevel(e.getPlayer()),
                 playerInterfaceStatus.getPlayerExperience(e.getPlayer()),
                 playerInterfaceStatus.getPlayerLevelUpExperience(e.getPlayer()),
                 playerInterfaceStatus.getPlayerClass(e.getPlayer()).getName(),
                 (playerInterfaceStatus.getPlayerProfession(e.getPlayer()) == null ? "Nenhuma" : playerInterfaceStatus.getPlayerProfession(e.getPlayer()).getName()),
                 playerInterfaceStatus.getPlayerProfessionLevel(e.getPlayer()),
-                getEconomy().getBalance(e.getPlayer()),
+                Double.parseDouble(format.format(getEconomy().getBalance(e.getPlayer()))),
                 playerInterfaceAttributes.getPlayerAttributesPoints(e.getPlayer()));
         for (String attribute : getConfig().getStringList("player_attributes")) {
             Attribute playerAttribute = new Attribute(playerInterfaceAttributes.getPlayerAttributeID(attribute), playerInterfaceAttributes.getPlayerAttributeName(attribute), playerInterfaceAttributes.getPlayerAttributeByID(e.getPlayer(), attribute));
